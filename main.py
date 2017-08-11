@@ -25,7 +25,6 @@ class ClientProtocol(asyncio.Protocol):
 
     def data_received(self, data):
         message = data.decode().replace("\n", "")
-        self.write(message)
 
         if self.name is not None:
             print("{} SENT {}".format(self.name, message))
