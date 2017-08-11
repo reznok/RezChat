@@ -30,6 +30,7 @@ class ClientProtocol(asyncio.Protocol):
             self.name = message[:20].replace(" ", "")
             self.write("Your Name Has Been Set To: {}".format(self.name))
             self.broadcast("{} Has Connected!".format(self.name))
+            print("{} JOIN".format(self.name))
 
         elif message in "":
             pass
@@ -47,6 +48,7 @@ class ClientProtocol(asyncio.Protocol):
             self.broadcast(self.name + ": " + message[:100])
 
     def connection_lost(self, exc):
+        print("{} DC".format(self.name))
         self.broadcast("{} Has Disconnected".format(self.name) )
         self.transport.close()
 
@@ -69,7 +71,7 @@ class ClientProtocol(asyncio.Protocol):
 
 loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance
-coro = loop.create_server(ClientProtocol, '127.0.0.1', 8888)
+coro = loop.create_server(ClientProtocol, '0.0.0.0', 8888)
 server = loop.run_until_complete(coro)
 
 # Serve requests until Ctrl+C is pressed
