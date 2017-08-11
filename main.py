@@ -26,6 +26,10 @@ class ClientProtocol(asyncio.Protocol):
 
     def data_received(self, data):
         message = data.decode().replace("\n", "")
+
+        if self.name is not None:
+            print("{} SENT {}".format(self.name, message))
+
         if self.name is None:
             self.name = message[:20].replace(" ", "")
             self.write("Your Name Has Been Set To: {}".format(self.name))
@@ -55,7 +59,6 @@ class ClientProtocol(asyncio.Protocol):
         for i, client in enumerate(clients):
             if client == self:
                 clients.pop(i)
-
 
     def write(self, message):
         self.transport.write((message + "\n").encode())
