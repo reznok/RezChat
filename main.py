@@ -21,7 +21,6 @@ class ClientProtocol(asyncio.Protocol):
         peername = transport.get_extra_info('peername')
         print('Connection from {}'.format(peername))
         self.transport = transport
-
         self.get_name()
 
     def data_received(self, data):
@@ -61,6 +60,7 @@ class ClientProtocol(asyncio.Protocol):
                 clients.pop(i)
 
     def write(self, message):
+        print("{} WRITE".format(self.name))
         self.transport.write((message + "\n").encode())
 
     def get_name(self):
@@ -68,6 +68,7 @@ class ClientProtocol(asyncio.Protocol):
         self.write("Please Enter A Name:")
 
     def broadcast(self, message):
+        print("{} BROADCAST".format(self.name))
         for client in clients:
             client.write(message)
 
