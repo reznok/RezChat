@@ -30,7 +30,7 @@ def run():
     while 1:
         data = sock.recv(1024)
         if not data: break
-        data = data.decode().replace("\n", "")
+        data = data.decode().rstrip("\n")
         commander.output(data)
 
 t = Thread(target=run)
