@@ -9,7 +9,10 @@ Commands
 -------
 /who     | List Connected People
 /help    | List This Menu
+-------
 """
+
+log = open("log.txt", "a")
 
 
 class ClientProtocol(asyncio.Protocol):
@@ -28,6 +31,7 @@ class ClientProtocol(asyncio.Protocol):
 
         if self.name is not None:
             print("{} SENT {}".format(self.name, message))
+            log.write("{} SENT {}".format(self.name, message) + "\n")
 
         if self.name is None:
             self.name = message[:20].replace(" ", "")
@@ -89,3 +93,4 @@ except KeyboardInterrupt:
 server.close()
 loop.run_until_complete(server.wait_closed())
 loop.close()
+log.close()

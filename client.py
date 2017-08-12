@@ -21,7 +21,7 @@ class TestCmd(Command):
         raise Exception('Some Error')
 
 
-commander = Commander('Test', cmd_cb=TestCmd())
+commander = Commander('RezChat', cmd_cb=TestCmd())
 
 
 
