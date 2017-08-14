@@ -19,7 +19,7 @@ log = open("log.txt", "a")
 class ClientProtocol(asyncio.Protocol):
     def __init__(self):
         self.name = None
-        self.name_color = None
+        self.name_color = "purple"
         self.current_room = 0
         clients.append(self)
 

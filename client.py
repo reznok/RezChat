@@ -28,11 +28,12 @@ commander = Commander('RezChat', cmd_cb=TestCmd())
 def run():
     while 1:
         data = sock.recv(1024)
-        data = data.decode()
         if not data: break
-        data = json.loads(data.decode().rstrip("\n"))
+        data = json.loads(data.decode())
+        data["message"] = data["message"].rstrip("\n")
+        print(data)
 
-        commander.output(data["msg"], data["color"])
+        commander.output(data["message"], data["color"])
 
 t = Thread(target=run)
 t.daemon = True
