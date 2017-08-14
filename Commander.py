@@ -141,7 +141,10 @@ You can also asynchronously output messages with Commander.output('message') """
                ('error', urwid.LIGHT_RED, urwid.BLACK),
                ('green', urwid.DARK_GREEN, urwid.BLACK),
                ('blue', urwid.LIGHT_BLUE, urwid.BLACK),
-               ('magenta', urwid.DARK_MAGENTA, urwid.BLACK), ]
+               ('magenta', urwid.DARK_MAGENTA, urwid.BLACK),
+               ('purple', '', '', '', '#80a', urwid.BLACK),
+               ('ping', 'default, bold', 'default', 'bold', '#f0a', urwid.BLACK),
+               ]
 
     def __init__(self, title,
                  command_caption='Command:  (Tab to switch focus to upper frame, where you can scroll text)',
@@ -165,6 +168,7 @@ You can also asynchronously output messages with Commander.output('message') """
 
     def loop(self, handle_mouse=False):
         self.eloop = urwid.MainLoop(self, self.PALLETE, handle_mouse=handle_mouse)
+        self.eloop.screen.set_terminal_properties(colors=256)
         self._eloop_thread = threading.current_thread()
         self.eloop.run()
 

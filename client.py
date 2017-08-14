@@ -1,6 +1,7 @@
 from Commander import Commander, Command
 import socket
 from threading import Thread
+import json
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -24,14 +25,14 @@ class TestCmd(Command):
 commander = Commander('RezChat', cmd_cb=TestCmd())
 
 
-
-
 def run():
     while 1:
         data = sock.recv(1024)
+        data = data.decode()
         if not data: break
-        data = data.decode().rstrip("\n")
-        commander.output(data)
+        data = json.loads(data.decode().rstrip("\n"))
+
+        commander.output(data["msg"], data["color"])
 
 t = Thread(target=run)
 t.daemon = True

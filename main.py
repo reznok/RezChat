@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 clients = []
 
@@ -18,6 +19,8 @@ log = open("log.txt", "a")
 class ClientProtocol(asyncio.Protocol):
     def __init__(self):
         self.name = None
+        self.name_color = None
+        self.current_room = 0
         clients.append(self)
 
     def connection_made(self, transport):
@@ -65,7 +68,11 @@ class ClientProtocol(asyncio.Protocol):
 
     def write(self, message):
         print("{} WRITE".format(self.name))
-        self.transport.write((message + "\n").encode())
+        data = {
+            "message": (message + "\n"),
+            "color": self.name_color
+        }
+        self.transport.write(json.dumps(data).encode())
 
     def get_name(self):
         self.write(BANNER)
@@ -93,4 +100,3 @@ except KeyboardInterrupt:
 server.close()
 loop.run_until_complete(server.wait_closed())
 loop.close()
-log.close()
