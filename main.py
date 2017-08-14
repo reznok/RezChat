@@ -3,6 +3,8 @@ import json
 
 clients = []
 
+COLORS = ["magenta", "green", "purple", "pink"]
+
 BANNER = """
 Welcome To RezChat!
 
@@ -54,6 +56,9 @@ class ClientProtocol(asyncio.Protocol):
         elif message in "/help":
             self.write(BANNER)
 
+        elif message.startswith("/nick "):
+            self.change_nick(message)
+
         else:
             self.broadcast(self.name + ": " + message[:100])
 
@@ -83,7 +88,11 @@ class ClientProtocol(asyncio.Protocol):
         for client in clients:
             client.write(message)
 
-
+    def change_nick(self, message):
+        nick = message.split(" ")[1]
+        self.write("{} has changed their name to {}".format(self.name, nick))
+        self.name = nick
+    
 loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance
 coro = loop.create_server(ClientProtocol, '0.0.0.0', 8888)

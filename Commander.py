@@ -143,7 +143,7 @@ You can also asynchronously output messages with Commander.output('message') """
                ('blue', urwid.LIGHT_BLUE, urwid.BLACK),
                ('magenta', urwid.DARK_MAGENTA, urwid.BLACK),
                ('purple', '', '', '', '#80a', urwid.BLACK),
-               ('ping', 'default, bold', 'default', 'bold', '#f0a', urwid.BLACK),
+               ('pink', 'default, bold', 'default', 'bold', '#f0a', urwid.BLACK),
                ]
 
     def __init__(self, title,
