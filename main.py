@@ -65,7 +65,7 @@ class ClientProtocol(asyncio.Protocol):
             self.change_color(message)
 
         else:
-            self.broadcast(self.name + ": " + message[:100])
+            self.broadcast(self.name + "> " + message[:100])
 
     def connection_lost(self, exc):
         print("{} DC".format(self.name))

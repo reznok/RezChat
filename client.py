@@ -40,8 +40,11 @@ def run():
             output["message"] = output["message"].rstrip("\n")
 
             try:
-                sender = output["message"].split(":")[0]
-                commander.output(sender, output["color"])
+                sender = output["message"].split(">")[0]
+                if len(sender) > 1:
+                    commander.output(sender, output["color"])
+                    commander.output(sender[1])
+                    continue
             except IndexError:
                 pass
 
