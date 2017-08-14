@@ -28,7 +28,7 @@ commander = Commander('RezChat', cmd_cb=TestCmd())
 
 def run():
     while 1:
-        data = sock.recv(1024)
+        data = sock.recv(4096)
         if not data: break
         try:
             data = json.loads(data.decode())
