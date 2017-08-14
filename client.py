@@ -30,7 +30,11 @@ def run():
     while 1:
         data = sock.recv(4096)
         if not data: break
-        data = data.decode()
+        try:
+            data = data.decode()
+        except:
+            print(data)
+            continue
         data = json.loads(data)
         data["message"] = data["message"].rstrip("\n")
         print(data)
