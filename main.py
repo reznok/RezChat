@@ -10,8 +10,10 @@ Welcome To RezChat!
 
 Commands
 -------
-/who     | List Connected People
-/help    | List This Menu
+/who           | List Connected People
+/help          | List This Menu
+/nick <name>   | Change Your Nick
+/color <color> | Change Your Name Color (magenta, green, purple, pink)
 -------
 """
 
@@ -21,7 +23,7 @@ log = open("log.txt", "a")
 class ClientProtocol(asyncio.Protocol):
     def __init__(self):
         self.name = None
-        self.name_color = "purple"
+        self.name_color = None
         self.current_room = 0
         clients.append(self)
 
@@ -59,6 +61,9 @@ class ClientProtocol(asyncio.Protocol):
         elif message.startswith("/nick "):
             self.change_nick(message)
 
+        elif message.startswith("/color "):
+            self.change_color(message)
+
         else:
             self.broadcast(self.name + ": " + message[:100])
 
@@ -92,6 +97,14 @@ class ClientProtocol(asyncio.Protocol):
         nick = message.split(" ")[1]
         self.write("{} has changed their name to {}".format(self.name, nick))
         self.name = nick
+
+    def change_color(self, message):
+        color = message.split(" ")[1].lower()
+        if color not in COLORS:
+            self.write("Invalid Color")
+            return
+        self.name_color = color
+        self.write("Color Updated")
 
 loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance
