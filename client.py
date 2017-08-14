@@ -32,10 +32,11 @@ def run():
         if not data: break
         try:
             data = data.decode()
+            data = json.loads(data)
         except:
             print(data)
             continue
-        data = json.loads(data)
+
         data["message"] = data["message"].rstrip("\n")
         print(data)
 
