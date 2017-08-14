@@ -80,6 +80,7 @@ class ClientProtocol(asyncio.Protocol):
         print("{} WRITE".format(self.name))
         data = {
             "message": (message + "\n"),
+            "color": color
         }
         self.transport.write(json.dumps(data).encode())
 
