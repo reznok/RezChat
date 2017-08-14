@@ -18,6 +18,7 @@ class TestCmd(Command):
     def do_echo(self, *args):
         '''echo - Just echos all arguments'''
         return ' '.join(args)
+
     def do_raise(self, *args):
         raise Exception('Some Error')
 
@@ -29,7 +30,10 @@ def run():
     while 1:
         data = sock.recv(1024)
         if not data: break
-        data = json.loads(data.decode())
+        try:
+            data = json.loads(data.decode())
+        except:
+            continue
         data["message"] = data["message"].rstrip("\n")
         print(data)
 

@@ -92,7 +92,7 @@ class ClientProtocol(asyncio.Protocol):
         nick = message.split(" ")[1]
         self.write("{} has changed their name to {}".format(self.name, nick))
         self.name = nick
-    
+
 loop = asyncio.get_event_loop()
 # Each client connection will create a new protocol instance
 coro = loop.create_server(ClientProtocol, '0.0.0.0', 8888)
