@@ -38,7 +38,14 @@ def run():
             output = json.loads(split_data[x])
 
             output["message"] = output["message"].rstrip("\n")
-            commander.output(output["message"], output["color"])
+
+            try:
+                sender = output["message"].split(":")[0]
+                commander.output(sender, output["color"])
+            except IndexError:
+                pass
+
+            commander.output(output["message"])
 
 t = Thread(target=run)
 t.daemon = True
