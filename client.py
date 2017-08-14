@@ -30,17 +30,15 @@ def run():
     while 1:
         data = sock.recv(4096)
         if not data: break
-        try:
-            data = data.decode()
-            data = json.loads(data)
-        except:
-            print(data)
-            continue
+        data = data.decode()
 
-        data["message"] = data["message"].rstrip("\n")
-        print(data)
+        split_data = data.split("{")
+        for x in range(1, len(split_data)):
+            split_data[x] = "{" + split_data[x]
+            output = json.loads(split_data[x])
 
-        commander.output(data["message"], data["color"])
+            output["message"] = output["message"].rstrip("\n")
+            commander.output(output["message"], output["color"])
 
 t = Thread(target=run)
 t.daemon = True
