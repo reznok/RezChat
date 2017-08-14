@@ -76,11 +76,10 @@ class ClientProtocol(asyncio.Protocol):
             if client == self:
                 clients.pop(i)
 
-    def write(self, message):
+    def write(self, message, color=None):
         print("{} WRITE".format(self.name))
         data = {
             "message": (message + "\n"),
-            "color": self.name_color
         }
         self.transport.write(json.dumps(data).encode())
 
@@ -91,7 +90,7 @@ class ClientProtocol(asyncio.Protocol):
     def broadcast(self, message):
         print("{} BROADCAST".format(self.name))
         for client in clients:
-            client.write(message)
+            client.write(message, self.name_color)
 
     def change_nick(self, message):
         nick = message.split(" ")[1]
