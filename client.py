@@ -36,6 +36,7 @@ def run():
         for x in range(1, len(split_data)):
             split_data[x] = "{" + split_data[x]
             output = json.loads(split_data[x])
+            print(output)
 
             output["message"] = output["message"].rstrip("\n")
 
