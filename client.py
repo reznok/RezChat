@@ -39,7 +39,8 @@ def run():
 
             output["message"] = output["message"].rstrip("\n")
 
-            commander.output(output["sender"] + "> ", output["color"])
+            if output["sender"] is not None:
+                commander.output(output["sender"] + "> ", output["color"])
             commander.output(output["message"])
 
 t = Thread(target=run)
