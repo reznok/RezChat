@@ -40,7 +40,7 @@ def run():
             output["message"] = output["message"].rstrip("\n")
 
             if output["sender"] is not None:
-                commander.output([("purple", output["sender"] + "> "),
+                commander.output([(output["color"], output["sender"] + "> "),
                                   output["message"]])
             else:
                 commander.output(("normal", output["message"]))
