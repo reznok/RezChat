@@ -40,8 +40,9 @@ def run():
             output["message"] = output["message"].rstrip("\n")
 
             if output["sender"] is not None:
-                commander.output(output["sender"] + "> ", output["color"])
-            commander.output(output["message"])
+                commander.output([(output["sender"] + "> ", output["color"]), output["message"]])
+            else:
+                commander.output(output["message"])
 
 t = Thread(target=run)
 t.daemon = True

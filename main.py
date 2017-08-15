@@ -3,7 +3,7 @@ import json
 
 clients = []
 
-COLORS = ["magenta", "green", "purple", "pink"]
+COLORS = ["magenta", "green", "purple", "pink", "normal"]
 
 BANNER = """
 Welcome To RezChat!
@@ -13,7 +13,7 @@ Commands
 /who           | List Connected People
 /help          | List This Menu
 /nick <name>   | Change Your Nick
-/color <color> | Change Your Name Color (magenta, green, purple, pink)
+/color <color> | Change Your Name Color (magenta, green, purple, pink, normal)
 -------
 """
 
@@ -23,7 +23,7 @@ log = open("log.txt", "a")
 class ClientProtocol(asyncio.Protocol):
     def __init__(self):
         self.name = None
-        self.name_color = None
+        self.name_color = "normal"
         self.current_room = 0
         clients.append(self)
 
@@ -65,11 +65,11 @@ class ClientProtocol(asyncio.Protocol):
             self.change_color(message)
 
         else:
-            self.broadcast(message[:100])
+            self.broadcast(message[:100], color=self.name_color, sender=self.name)
 
     def connection_lost(self, exc):
         print("{} DC".format(self.name))
-        self.broadcast("{} Has Disconnected".format(self.name) )
+        self.broadcast("{} Has Disconnected".format(self.name))
         self.transport.close()
 
         for i, client in enumerate(clients):
@@ -89,10 +89,10 @@ class ClientProtocol(asyncio.Protocol):
         self.write(BANNER)
         self.write("Please Enter A Name:")
 
-    def broadcast(self, message):
+    def broadcast(self, message, color=None, sender=None):
         print("{} BROADCAST".format(self.name))
         for client in clients:
-            client.write(message, color=self.name_color, sender=self.name)
+            client.write(message, color, sender)
 
     def change_nick(self, message):
         nick = message.split(" ")[1]
