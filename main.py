@@ -65,7 +65,7 @@ class ClientProtocol(asyncio.Protocol):
             self.change_color(message)
 
         else:
-            self.broadcast(self.name + "> " + message[:100])
+            self.broadcast(message[:100])
 
     def connection_lost(self, exc):
         print("{} DC".format(self.name))
@@ -76,11 +76,12 @@ class ClientProtocol(asyncio.Protocol):
             if client == self:
                 clients.pop(i)
 
-    def write(self, message, color=None):
+    def write(self, message, sender=None, color=None):
         print("{} WRITE".format(self.name))
         data = {
             "message": (message + "\n"),
-            "color": color
+            "color": color,
+            "sender": sender
         }
         self.transport.write(json.dumps(data).encode())
 
@@ -91,7 +92,7 @@ class ClientProtocol(asyncio.Protocol):
     def broadcast(self, message):
         print("{} BROADCAST".format(self.name))
         for client in clients:
-            client.write(message, self.name_color)
+            client.write(message, color=self.name_color, sender=self.name)
 
     def change_nick(self, message):
         nick = message.split(" ")[1]
