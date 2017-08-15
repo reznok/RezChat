@@ -92,7 +92,7 @@ class ClientProtocol(asyncio.Protocol):
     def broadcast(self, message, color=None, sender=None):
         print("{} BROADCAST".format(self.name))
         for client in clients:
-            client.write(message, color, sender)
+            client.write(message, color=color, sender=sender)
 
     def change_nick(self, message):
         nick = message.split(" ")[1]
